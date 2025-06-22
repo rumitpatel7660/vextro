@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products | Vextro Industries</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore Vextro Industries' range of hardware and sanitary fittings.">
+  <link rel="icon" href="{{ url_for('static', filename='assets/logo.png') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <style>
+    /* Dynamic Zig-Zag Layout */
+    .zigzag-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .zigzag-card {
+      opacity: 0;
+      transform: translateY(100px) scale(0.8);
+      animation: zigzagReveal 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      position: relative;
+      margin-bottom: 80px;
+    }
+    
+    .zigzag-card:nth-child(1) { animation-delay: 0.2s; }
+    .zigzag-card:nth-child(2) { animation-delay: 0.4s; }
+    .zigzag-card:nth-child(3) { animation-delay: 0.6s; }
+    .zigzag-card:nth-child(4) { animation-delay: 0.8s; }
+    .zigzag-card:nth-child(5) { animation-delay: 1.0s; }
+    .zigzag-card:nth-child(6) { animation-delay: 1.2s; }
+    
+    @keyframes zigzagReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    /* Product Image Container */
+    .product-image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      background: white;
+    }
+    
+    .zigzag-card:hover .product-image-container {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(0, 128, 0, 0.2);
+    }
+    
+    /* Dynamic Zig-Zag Edge Effects */
+    .zigzag-edge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 128, 0, 0.1), rgba(0, 196, 180, 0.1));
+      z-index: 2;
+      transition: all 0.4s ease;
+    }
+    
+    .zigzag-edge-left {
+      clip-path: polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%, 10% 50%);
+    }
+    
+    .zigzag-edge-right {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 10% 50%, 0 0);
+    }
+    
+    .zigzag-card:hover .zigzag-edge {
+      background: linear-gradient(135deg, rgba(0, 128, 0, 0.2), rgba(0, 196, 180, 0.2));
+      transform: scale(1.05);
+    }
+    
+    /* Product Image Styling */
+    .product-image {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .zigzag-card:hover .product-image {
+      transform: scale(1.15) rotate(2deg);
+      filter: brightness(1.1) contrast(1.05) saturate(1.1);
+    }
+    
+    /* Glowing Border Effect */
+    .glow-border {
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(45deg, #008000, #00C4B4, #008000, #00C4B4);
+      background-size: 400% 400%;
+      border-radius: 23px;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+    
+    .zigzag-card:hover .glow-border {
+      opacity: 1;
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+    
+    /* Shimmer Effect */
+    .shimmer-effect {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+      transition: left 1.2s ease;
+      z-index: 3;
+    }
+    
+    .zigzag-card:hover .shimmer-effect {
+      left: 100%;
+    }
+    
+    /* Product Name Overlay */
+    .product-name-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, rgba(0, 128, 0, 0.95), rgba(0, 196, 180, 0.95));
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 20px;
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 4;
+      display: none; /* Hide the overlay completely */
+    }
+    
+    .zigzag-card:hover .product-name-overlay {
+      transform: translateY(0);
+      display: none; /* Keep it hidden even on hover */
+    }
+    
+    .product-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Category Badge */
+    .category-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.7rem;
+      margin-top: 8px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .category-badge:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+    
+    /* Floating Elements */
+    .floating-element {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00C4B4;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 4s ease-in-out infinite;
+      z-index: 5;
+    }
+    
+    .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+    .floating-element:nth-child(2) { top: 40%; right: 15%; animation-delay: 1s; }
+    .floating-element:nth-child(3) { top: 60%; left: 20%; animation-delay: 2s; }
+    .floating-element:nth-child(4) { top: 80%; right: 10%; animation-delay: 3s; }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: translateY(-20px) scale(1);
+        opacity: 0.8;
+      }
+    }
+    
+    .zigzag-card:hover .floating-element {
+      animation-play-state: running;
+    }
+    
+    /* Category Filter Styling */
+    .category-filter {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .category-filter::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      transition: all 0.4s ease;
+      transform: translate(-50%, -50%);
+    }
+    
+    .category-filter:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    /* 3D Tilt Effect */
+    .tilt-container {
+      transform-style: preserve-3d;
+      perspective: 1200px;
+      transition: transform 0.3s ease;
+    }
+    
+    .zigzag-card:hover .tilt-container {
+      transform: rotateX(5deg) rotateY(5deg);
+    }
+    
+    /* Product Name Display */
+    .product-name-display {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-align: center;
+      margin: 15px 0 10px 0;
+      color: #008000;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .zigzag-card:hover .product-name-display {
+      color: #00C4B4;
+      transform: translateY(-2px);
+    }
+    
+    /* Category Badge Display */
+    .category-badge-display {
+      display: inline-block;
+      background: linear-gradient(135deg, #00C4B4, #008000);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      box-shadow: 0 3px 10px rgba(0, 196, 180, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .category-badge-display:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 196, 180, 0.4);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .zigzag-edge {
+        display: none;
+      }
+      
+      .product-image-container {
+        border-radius: 15px;
+      }
+      
+      .zigzag-card:hover .product-image-container {
+        transform: translateY(-5px) scale(1.01);
+      }
+      
+      .zigzag-card:hover .product-image {
+        transform: scale(1.08);
+      }
+      
+      .zigzag-card {
+        margin-bottom: 40px;
+      }
+    }
+    
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .zigzag-card,
+      .product-image-container,
+      .product-image,
+      .shimmer-effect,
+      .floating-element {
+        animation: none;
+        transition: none;
+      }
+      
+      .zigzag-card:hover .product-image-container,
+      .zigzag-card:hover .product-image {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-white font-roboto">
+  {% include 'menu.html' %}
+  
+  <!-- Hero Section -->
+  <section
+    class="relative bg-cover bg-center bg-no-repeat h-screen flex flex-col items-center justify-center"
+    style="background-image: url({{ url_for('static', filename='assets/product_hero.png') }});">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-7xl mx-auto px-4 text-center text-white">
+        <h1 class="text-4xl md:text-6xl font-montserrat font-bold mb-4">
+            {% if category %}
+                {{ category }}
+            {% else %}
+                Our Products
+            {% endif %}
+        </h1>
+        <div class="w-32 h-2 bg-gradient-to-r from-[#008000] to-[#00C4B4] mx-auto rounded-full"></div>
+        <div class="flex flex-wrap justify-center gap-4 mt-8">
+            <a href="{{ url_for('products') }}"
+               class="category-filter px-5 py-2 rounded-full font-medium text-sm relative z-10 
+                      {% if not category %}
+                        bg-gradient-to-r from-[#00C4B4] to-[#008000] text-white shadow-lg
+                      {% else %}
+                        bg-white/10 border border-white/50 text-white/80 hover:bg-white/20 hover:text-white
+                      {% endif %} transition-all duration-300">
+              <span class="relative z-10">All Products</span>
+            </a>
+            {% for cat in categories %}
+              <a href="{{ url_for('products', category=cat) }}"
+                 class="category-filter px-5 py-2 rounded-full font-medium text-sm relative z-10 
+                        {% if category == cat.replace('_', ' ').title() %}
+                          bg-gradient-to-r from-[#00C4B4] to-[#008000] text-white shadow-lg
+                        {% else %}
+                          bg-white/10 border border-white/50 text-white/80 hover:bg-white/20 hover:text-white
+                        {% endif %} transition-all duration-300">
+                <span class="relative z-10">{{ cat.replace('_', ' ').title() }}</span>
+              </a>
+            {% endfor %}
+        </div>
+    </div>
+  </section>
+
+  <!-- Products Grid - Dynamic Zigzag Layout -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="zigzag-container">
+        {% for product in products %}
+          <div class="zigzag-card flex flex-col lg:flex-row items-center gap-16 max-w-6xl mx-auto {% if loop.index % 2 == 0 %}lg:flex-row-reverse{% endif %}">
+            
+            <!-- Image Section -->
+            <div class="w-full lg:w-1/2">
+              <div class="tilt-container">
+                <div class="product-image-container {% if loop.index % 2 == 0 %}zigzag-edge-right{% else %}zigzag-edge-left{% endif %}">
+                  <!-- Glowing Border -->
+                  <div class="glow-border"></div>
+                  
+                  <!-- Product Image -->
+                  <img src="{{ product.image }}" 
+                       alt="{{ product.name }}" 
+                       class="product-image">
+                  
+                  <!-- Shimmer Effect -->
+                  <div class="shimmer-effect"></div>
+                  
+                  <!-- Zig-zag Edge -->
+                  <div class="zigzag-edge"></div>
+                  
+                  <!-- Floating Elements -->
+                  <div class="floating-element"></div>
+                  <div class="floating-element"></div>
+                  <div class="floating-element"></div>
+                  <div class="floating-element"></div>
+                  
+                  <!-- Product Name Overlay -->
+                  <div class="product-name-overlay">
+                    <h3 class="product-name">
+                      {{ product.name.split('.')[0] | title }}
+                    </h3>
+                    <div class="text-center">
+                      <span class="category-badge">
+                        {{ product.category }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product Name Display -->
+                <h2 class="product-name-display">
+                  {{ product.name.split('.')[0] | title }}
+                </h2>
+                
+                <!-- Category Badge Display -->
+                <div class="text-center">
+                  <span class="category-badge-display">
+                    {{ product.category }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Empty Space for Zigzag Balance -->
+            <div class="w-full lg:w-1/2"></div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Empty State -->
+  {% if not products %}
+  <section class="py-24">
+    <div class="max-w-2xl mx-auto text-center px-4">
+      <div class="w-28 h-28 mx-auto mb-8 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+        </svg>
+      </div>
+      <h3 class="text-3xl font-montserrat font-bold text-gray-700 mb-4">No Products Found</h3>
+      <p class="text-xl text-gray-500">Try selecting a different category or check back later for new products.</p>
+    </div>
+  </section>
+  {% endif %}
+
+  {% include 'footer.html' %}
+  
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  
+  <script>
+    // Enhanced scroll animations
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0) scale(1)';
+        }
+      });
+    }, observerOptions);
+
+    // Initialize animations
+    document.addEventListener('DOMContentLoaded', () => {
+      const zigzagCards = document.querySelectorAll('.zigzag-card');
+      zigzagCards.forEach(card => observer.observe(card));
+      
+      // Add smooth scroll behavior
+      document.documentElement.style.scrollBehavior = 'smooth';
+      
+      // 3D tilt effect for cards
+      zigzagCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const rotateX = (y - centerY) / 20;
+          const rotateY = (centerX - x) / 20;
+          
+          const tiltContainer = card.querySelector('.tilt-container');
+          if (tiltContainer) {
+            tiltContainer.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          const tiltContainer = card.querySelector('.tilt-container');
+          if (tiltContainer) {
+            tiltContainer.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+          }
+        });
+      });
+      
+      // Add staggered animation delays for better visual flow
+      zigzagCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.2}s`;
+      });
+    });
+  </script>
+</body>
+</html> 

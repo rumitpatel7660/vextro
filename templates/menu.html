@@ -1,0 +1,54 @@
+<nav class="bg-white shadow-md fixed w-full z-20 top-0 left-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-20">
+      <div class="flex items-center">
+        <a href="{{ url_for('index') }}" class="group transition-transform duration-300 hover:scale-105">
+          <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Vextro Logo" class="h-20 w-auto mr-6 transition-transform duration-300 group-hover:scale-110">
+        </a>
+      </div>
+      <div class="hidden md:flex items-center space-x-10">
+        <a href="{{ url_for('index') }}" class="nav-link-attractive {% if request.path == '/' %}active{% endif %}">Home</a>
+        <a href="{{ url_for('about') }}" class="nav-link-attractive {% if request.path == '/about' %}active{% endif %}">About</a>
+        <div class="relative group">
+          <a href="{{ url_for('products') }}" class="nav-link-attractive {% if 'products' in request.path %}active{% endif %} flex items-center gap-2">
+            Products
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </a>
+          <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-gradient-to-br from-teal-50 via-white to-green-50 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-4 dropdown-animate">
+            <a href="{{ url_for('products', category='aldrops') }}" class="block px-4 py-3 text-[#008000] hover:text-[#00C4B4] transition-colors duration-200">Aldrops</a>
+            <a href="{{ url_for('products', category='glass brackets') }}" class="block px-4 py-3 text-[#008000] hover:text-[#00C4B4] transition-colors duration-200">Glass Brackets</a>
+            <a href="{{ url_for('products', category='glass holder') }}" class="block px-4 py-3 text-[#008000] hover:text-[#00C4B4] transition-colors duration-200">Glass Holder</a>
+            <a href="{{ url_for('products', category='hinges') }}" class="block px-4 py-3 text-[#008000] hover:text-[#00C4B4] transition-colors duration-200">Hinges</a>
+            <a href="{{ url_for('products', category='towerbolt') }}" class="block px-4 py-3 text-[#008000] hover:text-[#00C4B4] transition-colors duration-200">Towerbolt</a>
+            <a href="{{ url_for('products', category='miscellaneous') }}" class="block px-4 py-3 text-[#008000] hover:text-[#00C4B4] transition-colors duration-200">Miscellaneous</a>
+          </div>
+        </div>
+        <a href="{{ url_for('contact') }}" class="nav-link-attractive {% if request.path == '/contact' %}active{% endif %}">Contact</a>
+      </div>
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-[#00C4B4] focus:outline-none">
+          <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="md:hidden hidden bg-white/80 backdrop-blur-md shadow-lg">
+    <a href="{{ url_for('index') }}" class="block px-4 py-4 nav-link-attractive {% if request.path == '/' %}active{% endif %}">Home</a>
+    <a href="{{ url_for('about') }}" class="block px-4 py-4 nav-link-attractive {% if request.path == '/about' %}active{% endif %}">About</a>
+    <div class="relative group">
+      <a href="{{ url_for('products') }}" class="block px-4 py-4 nav-link-attractive {% if 'products' in request.path %}active{% endif %}">Products</a>
+       <div class="mt-2 space-y-2 pl-8">
+            <a href="{{ url_for('products', category='aldrops') }}" class="block text-[#008000] hover:text-[#00C4B4]">Aldrops</a>
+            <a href="{{ url_for('products', category='glass brackets') }}" class="block text-[#008000] hover:text-[#00C4B4]">Glass Brackets</a>
+            <a href="{{ url_for('products', category='glass holder') }}" class="block text-[#008000] hover:text-[#00C4B4]">Glass Holder</a>
+            <a href="{{ url_for('products', category='hinges') }}" class="block text-[#008000] hover:text-[#00C4B4]">Hinges</a>
+            <a href="{{ url_for('products', category='towerbolt') }}" class="block text-[#008000] hover:text-[#00C4B4]">Towerbolt</a>
+            <a href="{{ url_for('products', category='miscellaneous') }}" class="block text-[#008000] hover:text-[#00C4B4]">Miscellaneous</a>
+        </div>
+    </div>
+    <a href="{{ url_for('contact') }}" class="block px-4 py-4 nav-link-attractive {% if request.path == '/contact' %}active{% endif %}">Contact</a>
+  </div>
+</nav>
+<div class="h-20"></div> <!-- Spacer for fixed nav --> 

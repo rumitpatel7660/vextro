@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us | Vextro Industries</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Vextro Industries for hardware and sanitary solutions.">
+  <link rel="icon" href="{{ url_for('static', filename='assets/logo.png') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    .glass {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    }
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label,
+    .floating-label textarea:focus + label,
+    .floating-label textarea:not(:placeholder-shown) + label {
+      transform: translateY(-1.5rem) scale(0.85);
+      color: #00C4B4;
+    }
+    .floating-label label {
+      pointer-events: none;
+      position: absolute;
+      left: 1rem;
+      top: 1.1rem;
+      transition: all 0.2s;
+      background: transparent;
+      padding: 0 0.25rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .floating-label input,
+    .floating-label textarea {
+      padding-top: 1.75rem;
+    }
+    .bg-shape {
+      position: absolute;
+      z-index: 0;
+      filter: blur(60px);
+      opacity: 0.25;
+    }
+    /* Unique continuous animations */
+    @keyframes floatContact {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .animate-float-contact {
+      animation: floatContact 3s ease-in-out infinite;
+    }
+    @keyframes formGlow {
+      0%, 100% { box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
+      50% { box-shadow: 0 0 24px 4px #00C4B4, 0 8px 32px 0 rgba(31, 38, 135, 0.15); }
+    }
+    .hover\:animate-form-glow:hover {
+      animation: formGlow 1.5s ease-in-out infinite;
+    }
+    @keyframes mapZoom {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.025); }
+    }
+    .animate-map-zoom {
+      animation: mapZoom 6s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-white font-roboto relative overflow-x-hidden">
+  <div class="bg-shape top-0 left-0 w-96 h-96 rounded-full bg-[#00C4B4] -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="bg-shape bottom-0 right-0 w-96 h-96 rounded-full bg-[#008000] translate-x-1/2 translate-y-1/2"></div>
+  {% include 'menu.html' %}
+
+  <!-- Section 1: Contact Info & Form -->
+  <section class="relative z-10 max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row gap-10 items-stretch">
+    <!-- Left: Contact Info -->
+    <div class="md:w-1/2 flex flex-col justify-center animate-fade-in-left">
+      <div class="glass rounded-3xl p-10 shadow-xl flex flex-col gap-8 h-full justify-center animate-float-contact">
+        <h1 class="text-4xl font-montserrat font-bold text-[#008000] mb-2 animate-slide-in">Contact Us</h1>
+        <p class="text-lg text-gray-700 mb-4 animate-fade-in">We'd love to hear from you! Reach out for any queries or collaborations.</p>
+        <div class="space-y-6 grid grid-cols-1">
+          <div class="flex items-start gap-3 animate-fade-in" style="animation-delay:0.1s;">
+            <span class="flex-shrink-0 mt-1 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#00C4B4] text-white text-xl shadow-lg">
+              <!-- Location Pin Icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4.418 0-8-4.03-8-9a8 8 0 1116 0c0 4.97-3.582 9-8 9z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+            <div class="flex-1">
+              <div class="font-bold text-[#008000] leading-tight">Address</div>
+              <div class="text-gray-700 leading-snug">Plot No. 39/2, RS No. 24/2 P-1-2, Shivam Park, Phase-3 Road,<br>Jamnagar-361 004. (Gujarat) India</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 animate-fade-in" style="animation-delay:0.2s;">
+            <span class="flex-shrink-0 mt-1 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#00C4B4] text-white text-xl shadow-lg">
+              <!-- Modern Phone Icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 01-2.18 2A19.72 19.72 0 013 5.18 2 2 0 015 3h3a2 2 0 012 1.72c.13 1.13.37 2.23.72 3.28a2 2 0 01-.45 2.11l-1.27 1.27a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c1.05.35 2.15.59 3.28.72A2 2 0 0122 16.92z"/></svg>
+            </span>
+            <div class="flex-1">
+              <div class="font-bold text-[#008000] leading-tight">Phone</div>
+              <div class="text-gray-700 leading-snug">Pravinbhai Malani: +91 70168 21574<br>Nimeshbhai Malani: +91 98798 30794</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 animate-fade-in" style="animation-delay:0.3s;">
+            <span class="flex-shrink-0 mt-1 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#00C4B4] text-white text-xl shadow-lg">
+              <!-- Mail Icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+            </span>
+            <div class="flex-1">
+              <div class="font-bold text-[#008000] leading-tight">Email</div>
+              <div class="text-gray-700 leading-snug">swatiimpex99@gmail.com</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 animate-fade-in" style="animation-delay:0.4s;">
+            <span class="flex-shrink-0 mt-1 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#00C4B4] text-white text-xl shadow-lg">
+              <!-- Clock Icon -->
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </span>
+            <div class="flex-1">
+              <div class="font-bold text-[#008000] leading-tight">Business Hours</div>
+              <div class="text-gray-700 leading-snug">Sat-Thu: 9:00 AM - 7:00 PM<br>Fri: Closed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Right: Contact Form -->
+    <div class="md:w-1/2 flex items-stretch animate-fade-in-right">
+      <form id="contactForm" method="POST" class="glass rounded-3xl shadow-xl p-10 w-full max-w-lg space-y-8 relative z-10 flex flex-col justify-center h-full hover:animate-form-glow">
+        <h2 class="text-2xl font-montserrat font-bold text-[#00C4B4] mb-2">Send a Message</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="mb-4 p-4 rounded {{ 'bg-green-100 text-green-800' if category == 'success' else 'bg-red-100 text-red-800' }} animate-fade-in">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <div class="space-y-6">
+          <div class="floating-label relative">
+            <input class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C4B4] bg-transparent" type="text" id="name" name="name" required placeholder=" " autocomplete="off">
+            <label for="name" class="text-[#008000] font-montserrat">Name</label>
+          </div>
+          <div class="floating-label relative">
+            <input class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C4B4] bg-transparent" type="email" id="email" name="email" required placeholder=" " autocomplete="off">
+            <label for="email" class="text-[#008000] font-montserrat">Email</label>
+          </div>
+          <div class="floating-label relative">
+            <input class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C4B4] bg-transparent" type="tel" id="contact_number" name="contact_number" required placeholder=" " autocomplete="off" pattern="[0-9\-\+\s]{10,15}">
+            <label for="contact_number" class="text-[#008000] font-montserrat">Contact Number</label>
+          </div>
+          <div class="floating-label relative">
+            <textarea class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C4B4] bg-transparent" id="message" name="message" rows="5" required placeholder=" "></textarea>
+            <label for="message" class="text-[#008000] font-montserrat">Message</label>
+          </div>
+          <button type="submit" class="w-full bg-gradient-to-r from-[#00C4B4] to-[#008000] text-white font-bold px-6 py-3 rounded-lg shadow-md hover:scale-105 hover:from-[#008000] hover:to-[#00C4B4] transition-all duration-300 text-lg tracking-wide animate-bounce-in">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Section 2: Map Card Only -->
+  <section class="relative z-10 max-w-6xl mx-auto px-4 pb-16 flex justify-center">
+    <div class="glass rounded-3xl p-0 shadow-xl overflow-hidden animate-map-zoom w-full md:w-[80%]">
+      <div class="w-full h-64 md:h-80">
+        <iframe class="w-full h-full" src="https://maps.google.com/maps?q=Plot+No.+39%2F2%2C+RS+No.+24%2F2+P-1-2%2C+Shivam+Park%2C+Phase-3+Road%2C+Jamnagar-361+004.+(Gujarat)+India&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+      </div>
+    </div>
+  </section>
+
+  {% include 'footer.html' %}
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script>
+    // Animate on scroll
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-left, .animate-fade-in-right, .animate-slide-in, .animate-float-up, .animate-bounce-in');
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          el.classList.add('in-view');
+        }
+      });
+    }
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('DOMContentLoaded', animateOnScroll);
+  </script>
+  <style>
+    .animate-fade-in { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(.4,0,.2,1); }
+    .animate-fade-in.in-view { opacity: 1; transform: none; }
+    .animate-fade-in-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(.4,0,.2,1); }
+    .animate-fade-in-left.in-view { opacity: 1; transform: none; }
+    .animate-fade-in-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(.4,0,.2,1); }
+    .animate-fade-in-right.in-view { opacity: 1; transform: none; }
+    .animate-slide-in { opacity: 0; transform: translateY(-30px); transition: all 0.8s cubic-bezier(.4,0,.2,1); }
+    .animate-slide-in.in-view { opacity: 1; transform: none; }
+    .animate-float-up { opacity: 0; transform: translateY(60px) scale(0.98); transition: all 1s cubic-bezier(.4,0,.2,1); }
+    .animate-float-up.in-view { opacity: 1; transform: none; }
+    .animate-bounce-in { opacity: 0; transform: scale(0.9); transition: all 0.7s cubic-bezier(.4,0,.2,1); }
+    .animate-bounce-in.in-view { opacity: 1; transform: scale(1.05); animation: bounce 0.5s 0.7s 1; }
+    @keyframes bounce { 0%,100%{transform:scale(1.05);} 50%{transform:scale(1.15);} }
+    @media (max-width: 900px) {
+      .bg-shape { display: none; }
+      section > div { min-width: 0; }
+      section {
+        flex-direction: column !important;
+        gap: 2.5rem !important;
+      }
+      .glass {
+        margin-bottom: 0 !important;
+      }
+    }
+    @media (min-width: 900px) {
+      section {
+        align-items: center;
+      }
+      .glass {
+        min-height: 420px;
+      }
+    }
+  </style>
+</body>
+</html> 

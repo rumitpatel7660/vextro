@@ -41,12 +41,17 @@
     
     /* Product Image Container */
     .product-image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      min-height: 350px;
+      height: 350px;
+      width: 100%;
       position: relative;
       overflow: hidden;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      background: white;
     }
     
     .zigzag-card:hover .product-image-container {
@@ -80,17 +85,22 @@
     
     /* Product Image Styling */
     .product-image {
-      width: 100%;
-      height: 350px;
-      object-fit: cover;
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 1;
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      background: white;
+      border-radius: 16px;
+      box-shadow: none;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .zigzag-card:hover .product-image {
       transform: scale(1.15) rotate(2deg);
       filter: brightness(1.1) contrast(1.05) saturate(1.1);
+    }
+    .product-image-container:hover .product-image {
+      transform: scale(1.12);
+      z-index: 10;
     }
     
     /* Glowing Border Effect */
@@ -325,6 +335,10 @@
         transform: none;
       }
     }
+    /* Remove green color animation effects */
+    .glow-border, .shimmer-effect, .zigzag-edge, .floating-element {
+      display: none !important;
+    }
   </style>
 </head>
 
@@ -394,39 +408,13 @@
             <!-- Image Section -->
             <div class="w-full lg:w-1/2">
               <div class="tilt-container">
-                <div class="product-image-container {% if loop.index % 2 == 0 %}zigzag-edge-right{% else %}zigzag-edge-left{% endif %}">
-                  <!-- Glowing Border -->
-                  <div class="glow-border"></div>
-                  
+                <div class="product-image-container {% if loop.index % 2 == 0 %}zigzag-edge-right{% else %}zigzag-edge-left{% endif %}" style="display: flex; align-items: center; justify-content: center; background: white; border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); min-height: 350px; height: 350px; width: 100%; position: relative; overflow: hidden;">
                   <!-- Product Image -->
                   <img src="{{ product.image }}" 
                        alt="{{ product.name }}" 
                        class="product-image cursor-pointer"
-                       onclick="showProductModal({{ loop.index0 }})">
-                  
-                  <!-- Shimmer Effect -->
-                  <div class="shimmer-effect"></div>
-                  
-                  <!-- Zig-zag Edge -->
-                  <div class="zigzag-edge"></div>
-                  
-                  <!-- Floating Elements -->
-                  <div class="floating-element"></div>
-                  <div class="floating-element"></div>
-                  <div class="floating-element"></div>
-                  <div class="floating-element"></div>
-                  
-                  <!-- Product Name Overlay -->
-                  <div class="product-name-overlay">
-                    <h3 class="product-name">
-                      {{ product.name.split('.')[0] | title }}
-                    </h3>
-                    <div class="text-center">
-                      <span class="category-badge">
-                        {{ product.category }}
-                      </span>
-                    </div>
-                  </div>
+                       onclick="showProductModal({{ loop.index0 }})"
+                       style="max-width: 90%; max-height: 90%; object-fit: contain; background: white; border-radius: 16px; box-shadow: none;">
                 </div>
                 
                 <!-- Product Name Display -->

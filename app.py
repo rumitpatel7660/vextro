@@ -1,5 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import os
+from twilio.rest import Client
+from size_charts import size_charts
+
+# Twilio credentials (store these as environment variables ideally)
+TWILIO_ACCOUNT_SID = 'AC49f6460d3f80de70608c10e6f278324c'
+TWILIO_AUTH_TOKEN = '1640233d9807308062c1652e167bf76d'
+TWILIO_PHONE_NUMBER = '+18723355283'  # Your Twilio number
+ADMIN_PHONE_NUMBER = '+918200564182'  # Admin's phone number (E.164 format)
 
 app = Flask(__name__)
 app.secret_key = 'vextro_secret_key'
@@ -8,24 +16,23 @@ app.secret_key = 'vextro_secret_key'
 PRODUCTS = [
     {
         'name': 'Stainless Steel Door Handle',
-        'image': 'static/assets/product/IMG_1751.jpg',
+        'image': 'static/assets/product/aldrops/Jorjan Aldrop.jpg',
         'desc': 'Premium quality stainless steel handle for doors.',
         'category': 'Hardware'
     },
     {
         'name': 'Modern Faucet',
-        'image': 'static/assets/product/IMG_1857.jpg',
+        'image': 'static/assets/product/hinges/Brass Railway Hinges.jpg',
         'desc': 'Elegant faucet for modern bathrooms and kitchens.',
         'category': 'Sanitary Fittings'
     },
     {
         'name': 'Brass Angle Valve',
-        'image': 'static/assets/product/IMG_1862.jpg',
+        'image': 'static/assets/product/towerbolt/Xylo Towerbolt.jpg',
         'desc': 'Durable brass angle valve for plumbing solutions.',
         'category': 'Sanitary Fittings'
     }
 ]
-
 @app.route('/')
 def index():
     return render_template('index.html', products=PRODUCTS[:3])
@@ -39,13 +46,31 @@ def contact():
     if request.method == 'POST':
         name = request.form.get('name', '')
         email = request.form.get('email', '')
+        contact_number = request.form.get('contact_number', '')
         message = request.form.get('message', '')
+
+        # SMS Validation
+        try:
+            # Compose the SMS content
+            # sms_body = f"New Contact Submission:\nName: {name}\nEmail: {email}\nPhone: {contact_number}\nMessage: {message}"
+            print("Initializing Twilio client...")
+            client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+            print("Creating SMS message...")
+            client.messages.create(
+                body="Test SMS from Flask app - contact form trigger",
+                from_=TWILIO_PHONE_NUMBER,
+                to=ADMIN_PHONE_NUMBER
+            )
+            print(f"Message sent! SID: {message.sid}")
+        except Exception as e:
+            print(f"Failed to send SMS to admin: {e}")
+            flash('Error sending SMS notification.', 'error')
+
         # Basic validation
-        if not name or not email or not message:
+        if not name or not email or not contact_number or not message:
             flash('All fields are required.', 'error')
         else:
-            print(f"Contact Form Submission: {name}, {email}, {message}")
-            flash('Thank you for contacting us! We will get back to you soon.', 'success')
+            print(f"Contact Form Submission: {name}, {email}, {contact_number}, {message}")
             return redirect(url_for('contact'))
     return render_template('contact.html')
 
@@ -60,9 +85,10 @@ def products(category=None):
             products_list = [{
                 'name': file,
                 'image': url_for('static', filename=f'assets/product/{category}/{file}'),
-                'category': category.replace('_', ' ').title()
+                'category': category.replace('_', ' ').title(),
+                'size_chart_key': file  # Use filename as key
             } for file in os.listdir(category_path) if file.lower().endswith(('.png', '.jpg', '.jpeg'))]
-            return render_template('products.html', products=products_list, category=category.replace('_', ' ').title(), categories=categories)
+            return render_template('products.html', products=products_list, category=category.replace('_', ' ').title(), categories=categories, size_charts=size_charts)
     
     # If no category or invalid category, show all products
     all_products = []
@@ -74,9 +100,31 @@ def products(category=None):
                 all_products.append({
                     'name': file,
                     'image': url_for('static', filename=f'assets/product/{cat}/{file}'),
-                    'category': cat.replace('_', ' ').title()
+                    'category': cat.replace('_', ' ').title(),
+                    'size_chart_key': file  # Use filename as key
                 })
-    return render_template('products.html', products=all_products, categories=categories)
+    return render_template('products.html', products=all_products, categories=categories, size_charts=size_charts)
+
+@app.route('/api/send_sms', methods=['POST'])
+def send_sms():
+    data = request.get_json()
+    name = data.get('name', '')
+    email = data.get('email', '')
+    contact_number = data.get('contact_number', '')
+    message = data.get('message', '')
+    
+    sms_body = f"New Contact Submission:\nName: {name}\nEmail: {email}\nPhone: {contact_number}\nMessage: {message}"
+    try:
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        sms = client.messages.create(
+            body=sms_body,
+            from_=TWILIO_PHONE_NUMBER,
+            to=ADMIN_PHONE_NUMBER
+        )
+        return jsonify({'success': True, 'sid': sms.sid}), 200
+    except Exception as e:
+        print(f"Failed to send SMS to admin: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT',5000)),debug=True) 
+    app.run(debug=True) 

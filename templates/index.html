@@ -49,7 +49,7 @@
       <div class="flex space-x-4 mt-20">
         <a href="{{ url_for('products', category='hinges') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h1.png)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Hinges</a>
         <a href="{{ url_for('products', category='towerbolt') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h2.png)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Towerbolt</a>
-        <a href="{{ url_for('products', category='glass holder') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h3.png)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Glass Holders</a>
+        <a href="{{ url_for('products', category='glass holder') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h3.jpg)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Glass Holders</a>
         <a href="{{ url_for('products', category='glass brackets') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h4.png)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Glass Brackets</a>
         <a href="{{ url_for('products', category='aldrops') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h6.png)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Door Handles & Locks</a>
         <a href="{{ url_for('products', category='miscellaneous') }}" class="category-item cursor-pointer text-white text-xl font-semibold px-6 py-3 bg-opacity-50 bg-[#065f46] rounded-lg transition-all duration-300 hover:scale-110 hover:text-white hover:bg-transparent hover:bg-opacity-0" onmouseover="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/abcd/h7.png)'" onmouseout="this.parentElement.parentElement.parentElement.style.backgroundImage='url(/static/assets/about us.jpg)'">Bath Fittings</a>
@@ -63,7 +63,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       <!-- Example Product 1 -->
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300 border border-[#e0f2f1]">
-        <img src="{{ url_for('static', filename='assets/product/aldrops/Jorjan Aldrop.jpg') }}" alt="Product 1" class="w-full h-56 object-cover">
+        <a href="{{ url_for('products', category='aldrops') }}">
+          <img src="{{ url_for('static', filename='assets/product/aldrops/Jorjan Aldrop.jpg') }}" alt="Product 1" class="w-full h-56 object-cover">
+        </a>
         <div class="p-6">
           <h3 class="font-montserrat text-xl text-[#008000] font-medium">Aldrops</h3>
           <p class="text-gray-600 text-base mt-2">Durable and stylish aldrop for main doors, made from premium materials.</p>
@@ -71,7 +73,9 @@
       </div>
       <!-- Example Product 2 -->
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300 border border-[#e0f2f1]">
-        <img src="{{ url_for('static', filename='assets/product/hinges/Brass Railway Hinges.jpg') }}" alt="Product 2" class="w-full h-56 object-cover">
+        <a href="{{ url_for('products', category='hinges') }}">
+          <img src="{{ url_for('static', filename='assets/product/hinges/Brass Railway Hinges.jpg') }}" alt="Product 2" class="w-full h-56 object-cover">
+        </a>
         <div class="p-6">
           <h3 class="font-montserrat text-xl text-[#008000] font-medium">Hinges</h3>
           <p class="text-gray-600 text-base mt-2">High-quality stainless steel tower bolt for doors and windows.</p>
@@ -79,7 +83,9 @@
       </div>
       <!-- Example Product 3 -->
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300 border border-[#e0f2f1]">
-        <img src="{{ url_for('static', filename='assets/product/towerbolt/Xylo Towerbolt.jpg') }}" alt="Product 3" class="w-full h-56 object-cover">
+        <a href="{{ url_for('products', category='towerbolt') }}">
+          <img src="{{ url_for('static', filename='assets/product/towerbolt/Xylo Towerbolt.jpg') }}" alt="Product 3" class="w-full h-56 object-cover">
+        </a>
         <div class="p-6">
           <h3 class="font-montserrat text-xl text-[#008000] font-medium">Towerbolt</h3>
           <p class="text-gray-600 text-base mt-2">High-quality stainless steel tower bolt for doors and windows.</p>
@@ -207,7 +213,7 @@
   <!-- Company Overview -->
   <section class="bg-gradient-to-r from-[#e0f7fa] via-[#f1f8e9] to-[#e0f2f1] py-16 md:min-h-screen md:flex md:items-center">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-montserrat font-bold text-[#008000] mb-4">About Vextro Industries</h2>
+      <h2 class="text-3xl font-montserrat font-bold text-[#008000] mb-4">About Vextro</h2>
       <p class="text-gray-700 text-lg mb-6">With a legacy of excellence, Vextro Industries is committed to providing innovative hardware and sanitary solutions. Our products are trusted by professionals for their quality, reliability, and design. Partner with us for your next project and experience the Vextro difference.</p>
       <div class="flex flex-col md:flex-row justify-center gap-6 mt-8">
         <a href="{{ url_for('about') }}" class="inline-block bg-[#00C4B4] text-white font-bold px-8 py-3 rounded-full shadow-md hover:bg-[#008000] transition-all duration-300">Learn More</a>

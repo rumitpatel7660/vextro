@@ -234,7 +234,7 @@
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              showContactNotification('Message sent successfully! (Email & SMS)', 'success');
+              showContactNotification('Message sent', 'success');
             } else {
               showContactNotification('Email sent, but failed to send SMS.', 'error');
             }

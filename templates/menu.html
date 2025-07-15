@@ -24,6 +24,7 @@
           </div>
         </div>
         <a href="{{ url_for('contact') }}" class="nav-link-attractive {% if request.path == '/contact' %}active{% endif %}">Contact</a>
+        <!-- <a href="#" id="download-catalog-btn" class="nav-link-attractive download-catalog-unique">Download Catelog</a> -->
       </div>
       <div class="md:hidden flex items-center">
         <button id="mobile-menu-button" class="text-[#00C4B4] focus:outline-none">
@@ -49,6 +50,7 @@
         </div>
     </div>
     <a href="{{ url_for('contact') }}" class="block px-4 py-4 nav-link-attractive {% if request.path == '/contact' %}active{% endif %}">Contact</a>
+    <!-- <a href="#" id="download-catalog-btn-mobile" class="block px-4 py-4 nav-link-attractive">Download Catelog</a> -->
   </div>
 </nav>
 <!-- Buffer Loader -->
@@ -72,6 +74,26 @@
     .loader-logo img { max-width: 5rem; width: 4rem; }
     .loader-dots .dot { width: 1rem; height: 1rem; }
   }
+  /* Unique style for Download Catelog (desktop menu only) */
+  .download-catalog-unique {
+    background: linear-gradient(90deg, #00C4B4 0%, #008000 100%);
+    color: #fff !important;
+    font-weight: bold;
+    border-radius: 9999px;
+    box-shadow: 0 2px 8px rgba(0,196,180,0.15);
+    padding: 0.5rem 1.5rem;
+    transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+    border: none;
+    outline: none;
+    margin-left: 0.5rem;
+  }
+  .download-catalog-unique:hover, .download-catalog-unique:focus {
+    background: linear-gradient(90deg, #008000 0%, #00C4B4 100%);
+    box-shadow: 0 4px 16px rgba(0,196,180,0.25);
+    transform: translateY(-2px) scale(1.04);
+    color: #fff !important;
+    text-decoration: none;
+  }
 </style>
 <script>
   window.addEventListener('DOMContentLoaded', function() {
@@ -84,3 +106,82 @@
   });
 </script>
 <div class="h-20"></div> <!-- Spacer for fixed nav --> 
+<!-- Catalog Download Modal -->
+<div id="catalog-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
+    <button id="close-catalog-modal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+    <h2 class="text-2xl font-bold mb-4 text-center text-[#008000]">Download Catelog</h2>
+    <form id="catalog-download-form" class="space-y-4">
+      <div>
+        <label for="catalog-name" class="block text-gray-700">Name</label>
+        <input type="text" id="catalog-name" name="name" class="w-full border rounded px-3 py-2" required>
+      </div>
+      <div>
+        <label for="catalog-phone" class="block text-gray-700">Phone Number</label>
+        <input type="tel" id="catalog-phone" name="phone" class="w-full border rounded px-3 py-2" required pattern="[0-9]{10,15}">
+      </div>
+      <button type="submit" id="catalog-download-btn" class="w-full bg-[#00C4B4] text-white py-2 rounded disabled:opacity-50" disabled>Download</button>
+      <div id="catalog-form-message" class="text-center text-sm mt-2"></div>
+    </form>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  // Modal logic
+  const modal = document.getElementById('catalog-modal');
+  const openBtns = [document.getElementById('download-catalog-btn'), document.getElementById('download-catalog-btn-mobile')];
+  const closeBtn = document.getElementById('close-catalog-modal');
+  openBtns.forEach(btn => btn && btn.addEventListener('click', e => { e.preventDefault(); modal.classList.remove('hidden'); }));
+  closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  window.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+
+  // Form logic
+  const form = document.getElementById('catalog-download-form');
+  const nameInput = document.getElementById('catalog-name');
+  const phoneInput = document.getElementById('catalog-phone');
+  const downloadBtn = document.getElementById('catalog-download-btn');
+  const msgDiv = document.getElementById('catalog-form-message');
+
+  function validateForm() {
+    downloadBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim().match(/^[0-9]{10,15}$/));
+  }
+  nameInput.addEventListener('input', validateForm);
+  phoneInput.addEventListener('input', validateForm);
+
+  // EmailJS config (replace with your EmailJS user/service/template IDs)
+  emailjs.init('MzqQDD5jsc2L0JWpv'); // <-- Replace with your EmailJS user ID
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    downloadBtn.disabled = true;
+    msgDiv.textContent = 'Processing...';
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    // 1. Send SMS via backend
+    fetch('/api/catalog_download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success) throw new Error(data.error || 'SMS failed');
+      // 2. Send Email via EmailJS
+      return emailjs.send('service_vjkcoi5', 'template_54701de', { name, phone }); // <-- Replace with your IDs
+    })
+    .then(() => {
+      msgDiv.textContent = 'Thank you! Your download will start.';
+      // 3. Download the catalog
+      setTimeout(() => {
+        window.location.href = "/static/Resume.pdf"; // Updated to use the actual file
+        modal.classList.add('hidden');
+        form.reset();
+        downloadBtn.disabled = true;
+      }, 1000);
+    })
+    .catch(err => {
+      msgDiv.textContent = 'Error: ' + err.message;
+      downloadBtn.disabled = false;
+    });
+  });
+</script> 

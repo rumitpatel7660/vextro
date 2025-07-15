@@ -7,7 +7,7 @@ from size_charts import size_charts
 TWILIO_ACCOUNT_SID = 'ACe42e4054899219412b630d59302cdbd0'
 TWILIO_AUTH_TOKEN = '1cf916651ebadaaa1c3de94f916ff744'
 TWILIO_PHONE_NUMBER = '+14782416504'  # Your Twilio number
-ADMIN_PHONE_NUMBER = '+919978431347'  # Admin's phone   # Admin's phone number (E.164 format)
+ADMIN_PHONE_NUMBER = '+919978431347'  # Admin's phone number (E.164 format)
 
 app = Flask(__name__)
 app.secret_key = 'vextro_secret_key'
@@ -124,6 +124,24 @@ def send_sms():
         return jsonify({'success': True, 'sid': sms.sid}), 200
     except Exception as e:
         print(f"Failed to send SMS to admin: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/catalog_download', methods=['POST'])
+def catalog_download():
+    data = request.get_json()
+    name = data.get('name', '')
+    phone = data.get('phone', '')
+    sms_body = f"Catalog Download Request:\nName: {name}\nPhone: {phone}"
+    try:
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        sms = client.messages.create(
+            body=sms_body,
+            from_=TWILIO_PHONE_NUMBER,
+            to=ADMIN_PHONE_NUMBER
+        )
+        return jsonify({'success': True, 'sid': sms.sid}), 200
+    except Exception as e:
+        print(f"Failed to send SMS for catalog download: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':

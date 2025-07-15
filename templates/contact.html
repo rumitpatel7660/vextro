@@ -124,7 +124,14 @@
     </div>
     <!-- Right: Contact Form -->
     <div class="md:w-1/2 flex items-stretch animate-fade-in-right">
-      <form id="contactForm" class="glass rounded-3xl shadow-xl p-10 w-full max-w-lg space-y-8 relative z-10 flex flex-col justify-center h-full hover:animate-form-glow">
+      <div class="w-full">
+        <div id="contact-notification-overlay" class="hidden fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+          <div id="contact-notification" class="contact-notification-popup relative">
+            <button id="contact-notification-close" type="button" class="absolute top-2 right-3 text-2xl text-gray-400 hover:text-[#00C4B4] font-bold focus:outline-none">&times;</button>
+            <span id="contact-notification-message"></span>
+          </div>
+        </div>
+        <form id="contactForm" class="glass rounded-3xl shadow-xl p-10 w-full max-w-lg space-y-8 relative z-10 flex flex-col justify-center h-full hover:animate-form-glow">
         <h2 class="text-2xl font-montserrat font-bold text-[#00C4B4] mb-2">Send a Message</h2>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -155,6 +162,7 @@
           <button type="submit" class="w-full bg-gradient-to-r from-[#00C4B4] to-[#008000] text-white font-bold px-6 py-3 rounded-lg shadow-md hover:scale-105 hover:from-[#008000] hover:to-[#00C4B4] transition-all duration-300 text-lg tracking-wide animate-bounce-in">Send Message</button>
         </div>
       </form>
+      </div>
     </div>
   </section>
 
@@ -189,6 +197,25 @@
       emailjs.init("MzqQDD5jsc2L0JWpv"); // Replace with your EmailJS public key
     })();
 
+    function showContactNotification(message, type) {
+      const overlay = document.getElementById('contact-notification-overlay');
+      const notif = document.getElementById('contact-notification');
+      const msg = document.getElementById('contact-notification-message');
+      msg.textContent = message;
+      notif.className = 'contact-notification-popup';
+      notif.classList.add(type === 'success' ? 'contact-notification-success' : 'contact-notification-error');
+      overlay.classList.remove('hidden');
+      // Close on click X
+      document.getElementById('contact-notification-close').onclick = function() {
+        overlay.classList.add('hidden');
+      };
+      // Auto close after 4s
+      clearTimeout(window._contactNotifTimeout);
+      window._contactNotifTimeout = setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 4000);
+    }
+
     document.getElementById('contactForm').addEventListener('submit', function(event) {
       event.preventDefault();
       emailjs.sendForm('service_vjkcoi5', 'template_54701de', this)
@@ -207,24 +234,53 @@
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              alert('Message sent successfully! (Email & SMS)');
+              showContactNotification('Message sent successfully! (Email & SMS)', 'success');
             } else {
-              alert('Email sent, but failed to send SMS.');
+              showContactNotification('Email sent, but failed to send SMS.', 'error');
             }
             document.getElementById('contactForm').reset();
           })
           .catch(error => {
-            alert('Email sent, but failed to send SMS.');
+            showContactNotification('Email sent, but failed to send SMS.', 'error');
             console.log('SMS ERROR...', error);
             document.getElementById('contactForm').reset();
           });
         }, function(error) {
-          alert('Failed to send message. Please try again.');
+          showContactNotification('Failed to send message. Please try again.', 'error');
           console.log('FAILED...', error);
         });
     });
   </script>
   <style>
+    .contact-notification-popup {
+      min-width: 320px;
+      max-width: 90vw;
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem 2.5rem 1.5rem 2rem;
+      box-shadow: 0 8px 40px 0 rgba(0,0,0,0.18), 0 1.5px 8px 0 rgba(0,196,180,0.10);
+      font-size: 1.15rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      z-index: 100;
+      animation: popupIn 0.3s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes popupIn {
+      from { opacity: 0; transform: scale(0.9) translateY(30px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .contact-notification-success {
+      background: linear-gradient(90deg, #e0f7fa, #b2f2e5);
+      color: #008000;
+      border: 2px solid #00C4B4;
+    }
+    .contact-notification-error {
+      background: linear-gradient(90deg, #ffeaea, #ffe3e3);
+      color: #b91c1c;
+      border: 2px solid #ffb4b4;
+    }
     .animate-fade-in { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(.4,0,.2,1); }
     .animate-fade-in.in-view { opacity: 1; transform: none; }
     .animate-fade-in-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(.4,0,.2,1); }

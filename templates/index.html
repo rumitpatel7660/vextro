@@ -11,20 +11,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="bg-white font-roboto">
-  <!-- Buffer Loader -->
-  <div id="buffer-loader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-    <div class="loader-container">
-      <div class="loader-logo">
-        <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Vextro Logo" class="w-24 h-24 md:w-32 md:h-32">
-      </div>
-      <div class="loader-dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
-  </div>
-
   {% include 'menu.html' %}
   
   <!-- Hero Section -->

@@ -4,10 +4,10 @@ from twilio.rest import Client
 from size_charts import size_charts
 
 # Twilio credentials (store these as environment variables ideally)
-TWILIO_ACCOUNT_SID = 'AC49f6460d3f80de70608c10e6f278324c'
-TWILIO_AUTH_TOKEN = '1640233d9807308062c1652e167bf76d'
-TWILIO_PHONE_NUMBER = '+18723355283'  # Your Twilio number
-ADMIN_PHONE_NUMBER = '+918200564182'  # Admin's phone number (E.164 format)
+TWILIO_ACCOUNT_SID = 'ACe42e4054899219412b630d59302cdbd0'
+TWILIO_AUTH_TOKEN = 'c325eb7d212779f3e49c4dc779f57073'
+TWILIO_PHONE_NUMBER = '+14782416504'  # Your Twilio number
+ADMIN_PHONE_NUMBER = '+919978431347'  # Admin's phone   # Admin's phone number (E.164 format)
 
 app = Flask(__name__)
 app.secret_key = 'vextro_secret_key'

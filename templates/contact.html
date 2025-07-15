@@ -67,20 +67,6 @@
   </style>
 </head>
 <body class="bg-white font-roboto relative overflow-x-hidden">
-  <!-- Buffer Loader -->
-  <div id="buffer-loader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-    <div class="loader-container">
-      <div class="loader-logo">
-        <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Vextro Logo" class="w-24 h-24 md:w-32 md:h-32">
-      </div>
-      <div class="loader-dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
-  </div>
-
   <div class="bg-shape top-0 left-0 w-96 h-96 rounded-full bg-[#00C4B4] -translate-x-1/2 -translate-y-1/2"></div>
   <div class="bg-shape bottom-0 right-0 w-96 h-96 rounded-full bg-[#008000] translate-x-1/2 translate-y-1/2"></div>
   {% include 'menu.html' %}

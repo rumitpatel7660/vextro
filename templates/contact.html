@@ -194,7 +194,7 @@
     window.addEventListener('DOMContentLoaded', animateOnScroll);
 
     (function(){
-      emailjs.init("MzqQDD5jsc2L0JWpv"); // Replace with your EmailJS public key
+      emailjs.init("x2zs6CKDywQZXjxrJ"); // Replace with your EmailJS public key
     })();
 
     function showContactNotification(message, type) {
@@ -218,7 +218,7 @@
 
     document.getElementById('contactForm').addEventListener('submit', function(event) {
       event.preventDefault();
-      emailjs.sendForm('service_vjkcoi5', 'template_54701de', this)
+      emailjs.sendForm('service_03gx1de', 'template_jn107ge', this)
         .then(function() {
           // Email sent successfully, now send SMS via backend API
           fetch('/api/send_sms', {
